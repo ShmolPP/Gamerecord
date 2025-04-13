@@ -115,6 +115,7 @@ function renderGames() {
     });
 }
 
+
 const sortByPlayCountButton = document.getElementById("sortByPlayCount");
 sortByPlayCountButton.addEventListener("click", () => {
     games = games.sort((gameA, gameB) => gameB.playCount - gameA.playCount);
@@ -124,6 +125,25 @@ sortByPlayCountButton.addEventListener("click", () => {
 const sortByRatingButton = document.getElementById("sortByRating");
 sortByRatingButton.addEventListener("click", () => {
     games = games.sort((gameA, gameB) => gameB.personalRating - gameA.personalRating);
+    renderGames();
+});
+
+
+const sortByPlayersButton = document.getElementById("sortByPlayers");
+sortByPlayersButton.addEventListener("click", () => {
+    games = games.sort((gameA, gameB) => {
+        const playersA = Number(gameA.players.split(/[-–]/)[0].trim());
+        const playersB = Number(gameB.players.split(/[-–]/)[0].trim());
+        return playersA - playersB;
+    });
+    renderGames();
+});
+
+const sortByDifficultyButton = document.getElementById("sortByDifficulty");
+sortByDifficultyButton.addEventListener("click", () => {
+    games = games.sort((gameA, gameB) => {
+        return gameA.difficulty.localeCompare(gameB.difficulty);
+    });
     renderGames();
 });
 

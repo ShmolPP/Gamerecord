@@ -26,3 +26,12 @@ I added two new sort buttons above the game list—one for “Sort by Play Count
 step 7
 I added a new section in index.html to let users add new games with a simple form. This section includes a <form id="newGameForm">. In app.mjs, I set up an event listener on this form to catch when the user submits it. When that happens, the code collects the values fromt the fields, creates a new Game object, and saves it to localStorage using the saveGame fucntion. Noticed a small mistake that the player count and rating went to minus, so added min="0" at the end of the code in index.html
 
+step8
+I connected the new game entry form  so it  lets users add new games. I set up an event listener for the form’s submission, and when a user submits the form, the code first prevents the default page refresh. Once the data is collected and validated, a new Game object is created with those values. I save this new game to localStorage
+
+stpe 9 
+I added a delete feature so users can easily remove a game from the list. Now, each game displays a "Delete Game" button that appears dynamically with the game’s details. When you click this button the game is removed from localStorage the in memeory games list is refreshed by reloading from storage.
+(I accidentally forgot to seperate step 8 and 9 so they ended up on the same commit because)
+
+step 10
+Made the listing sorting funcitonality better by addind new UI buttons in index.html that allow the user to sort the game by different criterias like player count, rating, difficulity, player count.
