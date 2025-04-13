@@ -24,3 +24,5 @@ step 5
 I added two new sort buttons above the game list—one for “Sort by Play Count” and another for “Sort by Rating”  also made the slider work so that if you move it, the game’s rating gets updated, saved to localStorage, and immediately udopated on the page. One of the challenges I ran into was ensuring that importing new game data wouldn’t reset the changes you’ve made. To fix that, I updated the import logic so that it only adds new games, leaving existing ratings and play counts unchanged.
 
 step 7
+I added a new section in index.html to let users add new games with a simple form. This section includes a <form id="newGameForm">. In app.mjs, I set up an event listener on this form to catch when the user submits it. When that happens, the code collects the values fromt the fields, creates a new Game object, and saves it to localStorage using the saveGame fucntion. Noticed a small mistake that the player count and rating went to minus, so added min="0" at the end of the code in index.html
+

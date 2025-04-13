@@ -103,6 +103,14 @@ function renderGames() {
         });
         gameDiv.appendChild(playButton);
 
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete Game";
+        deleteButton.addEventListener("click", () => {
+            localStorage.removeItem(`game_${game.title}`);
+            loadGames();
+        });
+        gameDiv.appendChild(deleteButton);
+
         gameList.appendChild(gameDiv);
     });
 }
@@ -162,7 +170,7 @@ newGameForm.addEventListener("submit", (event) => {
     const personalRating = Number(document.getElementById("newPersonalRating").value);
     
     if (!title || !players) {
-        alert("Please provide at least the Title and Players.");
+        alert("Please procie at least the title nad platers.");
         return;
     }
     
@@ -186,4 +194,4 @@ newGameForm.addEventListener("submit", (event) => {
     newGameForm.reset();
 });
 
-loadGames(); 
+loadGames();

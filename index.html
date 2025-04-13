@@ -8,14 +8,36 @@
 </head>
 <body>
     <h1>GameRecord</h1>
+    
+    <div id="newGameFormContainer">
+        <h2>Add New Game</h2>
+        <form id="newGameForm">
+            <input type="text" id="newTitle" placeholder="Title" required>
+            <input type="text" id="newDesigner" placeholder="Designer">
+            <input type="text" id="newArtist" placeholder="Artist">
+            <input type="text" id="newPublisher" placeholder="Publisher">
+            <input type="number" id="newYear" placeholder="Year">
+            <input type="text" id="newPlayers" placeholder="Players" required>
+            <input type="text" id="newTime" placeholder="Time ">
+            <input type="text" id="newDifficulty" placeholder="Difficulty">
+            <input type="url" id="newUrl" placeholder="URL">
+            <input type="number" id="newPlayCount" placeholder="Play Count" min="0">
+            <input type="number" id="newPersonalRating" placeholder="Rating" min="0">
+            <button type="submit">Add Game</button>
+        </form>
+    </div>
+    
     <div>
         <label for="importSource">Import Games:</label>
         <input type="file" id="importSource" accept=".json">
+        <button id="exportButton">Export Games</button>
     </div>
     <div>
-        <button id="sortByPlayers">Sort by Players</button>
+        <button id="sortByPlayCount">Sort by Play Count</button>
         <button id="sortByRating">Sort by Rating</button>
     </div>
+    
+    <!-- Game List Display -->
     <div id="gameList"></div>
     <script src="app.mjs" type="module"></script>
 </body>
