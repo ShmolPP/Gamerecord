@@ -5,7 +5,7 @@ console.log("GameRecord app initialized");
 let games = [];
 
 function saveGame(game) {
-    const key = `game_${game.title}`; 
+    const key = `game_${game.title}`;
     localStorage.setItem(key, JSON.stringify(game));
 }
 
@@ -36,7 +36,7 @@ function getAllGames() {
 
 function exportGamesToJSON() {
     const games = getAllGames();
-    return JSON.stringify(games, null, 2); 
+    return JSON.stringify(games, null, 2);
 }
 
 function importGamesFromJSON(jsonString) {
@@ -97,7 +97,7 @@ function renderGames() {
         const playButton = document.createElement("button");
         playButton.textContent = "Play Count: " + game.playCount;
         playButton.addEventListener("click", () => {
-            game.playCount = game.playCount + 1;
+            game.playCount++;
             saveGame(game);
             renderGames();
         });
@@ -109,17 +109,13 @@ function renderGames() {
 
 const sortByPlayCountButton = document.getElementById("sortByPlayCount");
 sortByPlayCountButton.addEventListener("click", () => {
-    games = games.sort((gameA, gameB) => {
-        return gameB.playCount - gameA.playCount; 
-    });
+    games = games.sort((gameA, gameB) => gameB.playCount - gameA.playCount);
     renderGames();
 });
 
 const sortByRatingButton = document.getElementById("sortByRating");
 sortByRatingButton.addEventListener("click", () => {
-    games = games.sort((gameA, gameB) => {
-        return gameB.personalRating - gameA.personalRating; 
-    });
+    games = games.sort((gameA, gameB) => gameB.personalRating - gameA.personalRating);
     renderGames();
 });
 
@@ -135,8 +131,6 @@ exportButton.addEventListener("click", () => {
     URL.revokeObjectURL(url);
 });
 
-loadGames();
-
 const importInput = document.getElementById("importSource");
 importInput.addEventListener("change", (event) => {
     const file = event.target.files[0];
@@ -145,8 +139,51 @@ importInput.addEventListener("change", (event) => {
         reader.onload = (e) => {
             const jsonString = e.target.result;
             importGamesFromJSON(jsonString);
-            loadGames(); 
+            loadGames();
         };
         reader.readAsText(file);
     }
 });
+
+const newGameForm = document.getElementById("newGameForm");
+newGameForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    
+    const title = document.getElementById("newTitle").value.trim();
+    const designer = document.getElementById("newDesigner").value.trim();
+    const artist = document.getElementById("newArtist").value.trim();
+    const publisher = document.getElementById("newPublisher").value.trim();
+    const year = document.getElementById("newYear").value;
+    const players = document.getElementById("newPlayers").value.trim();
+    const time = document.getElementById("newTime").value.trim();
+    const difficulty = document.getElementById("newDifficulty").value.trim();
+    const url = document.getElementById("newUrl").value.trim();
+    const playCount = Number(document.getElementById("newPlayCount").value);
+    const personalRating = Number(document.getElementById("newPersonalRating").value);
+    
+    if (!title || !players) {
+        alert("Please provide at least the Title and Players.");
+        return;
+    }
+    
+    const newGame = new Game(
+        title,
+        designer,
+        artist,
+        publisher,
+        year,
+        players,
+        time,
+        difficulty,
+        url,
+        playCount,
+        personalRating
+    );
+    saveGame(newGame);
+    
+    loadGames();
+    
+    newGameForm.reset();
+});
+
+loadGames(); 
