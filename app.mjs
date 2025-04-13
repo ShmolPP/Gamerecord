@@ -42,31 +42,34 @@ function exportGamesToJSON() {
 function importGamesFromJSON(jsonString) {
     const gamesData = JSON.parse(jsonString);
     gamesData.forEach(gameData => {
-        const game = new Game(
-            gameData.title,
-            gameData.designer,
-            gameData.artist,
-            gameData.publisher,
-            gameData.year,
-            gameData.players,
-            gameData.time,
-            gameData.difficulty,
-            gameData.url,
-            gameData.playCount,
-            gameData.personalRating
-        );
-        saveGame(game);
+        const key = `game_${gameData.title}`;
+        if (!localStorage.getItem(key)) {
+            const game = new Game(
+                gameData.title,
+                gameData.designer,
+                gameData.artist,
+                gameData.publisher,
+                gameData.year,
+                gameData.players,
+                gameData.time,
+                gameData.difficulty,
+                gameData.url,
+                gameData.playCount,
+                gameData.personalRating
+            );
+            saveGame(game);
+        }
     });
 }
 
 function loadGames() {
     games = getAllGames();
-    renderGames(); // Show the games on the page
+    renderGames();
 }
 
 function renderGames() {
     const gameList = document.getElementById("gameList");
-    gameList.innerHTML = ""; // Clear the list so we don’t show games twice
+    gameList.innerHTML = "";
 
     games.forEach(game => {
         const gameDiv = document.createElement("div");
@@ -83,18 +86,54 @@ function renderGames() {
         ratingInput.min = "0";
         ratingInput.max = "10";
         ratingInput.value = game.personalRating;
-        ratingInput.disabled = true; // Can’t move it yet
+        ratingInput.addEventListener("change", () => {
+            game.personalRating = Number(ratingInput.value);
+            saveGame(game);
+            renderGames();
+        });
         gameDiv.appendChild(ratingLabel);
         gameDiv.appendChild(ratingInput);
 
         const playButton = document.createElement("button");
         playButton.textContent = "Play Count: " + game.playCount;
-        playButton.disabled = true; // Can’t click it yet
+        playButton.addEventListener("click", () => {
+            game.playCount = game.playCount + 1;
+            saveGame(game);
+            renderGames();
+        });
         gameDiv.appendChild(playButton);
 
         gameList.appendChild(gameDiv);
     });
 }
+
+const sortByPlayCountButton = document.getElementById("sortByPlayCount");
+sortByPlayCountButton.addEventListener("click", () => {
+    games = games.sort((gameA, gameB) => {
+        return gameB.playCount - gameA.playCount; 
+    });
+    renderGames();
+});
+
+const sortByRatingButton = document.getElementById("sortByRating");
+sortByRatingButton.addEventListener("click", () => {
+    games = games.sort((gameA, gameB) => {
+        return gameB.personalRating - gameA.personalRating; 
+    });
+    renderGames();
+});
+
+const exportButton = document.getElementById("exportButton");
+exportButton.addEventListener("click", () => {
+    const jsonString = exportGamesToJSON();
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "my-games.json";
+    link.click();
+    URL.revokeObjectURL(url);
+});
 
 loadGames();
 
@@ -106,7 +145,7 @@ importInput.addEventListener("change", (event) => {
         reader.onload = (e) => {
             const jsonString = e.target.result;
             importGamesFromJSON(jsonString);
-            loadGames(); // This will also call renderGames()
+            loadGames(); 
         };
         reader.readAsText(file);
     }

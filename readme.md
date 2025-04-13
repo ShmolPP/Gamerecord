@@ -18,3 +18,9 @@ A file upload button enables users to add games through JSON file upload such as
 
 step 5
  I built a separate section to display games since users need to know what they have accessible right now. In index.html, I added a <div> section with the id gameList to follow the file import button. I added a range input for the rating but disabled it for now until its functionality is ready in Step 6. Similarly, I added a button to show the play count, hinting at future interactivity when tracking how many times a game has been played. I organized each game’s details into its own box by sequentially building a container for the title, slider, and button, and then inserting it into gameList.
+
+ step6
+
+I added two new sort buttons above the game list—one for “Sort by Play Count” and another for “Sort by Rating”  also made the slider work so that if you move it, the game’s rating gets updated, saved to localStorage, and immediately udopated on the page. One of the challenges I ran into was ensuring that importing new game data wouldn’t reset the changes you’ve made. To fix that, I updated the import logic so that it only adds new games, leaving existing ratings and play counts unchanged.
+
+step 7
