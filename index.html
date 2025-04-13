@@ -8,9 +8,11 @@
 </head>
 <body>
     <h1>GameRecord</h1>
-    
-    <input type="file" id="importSource" />
-
+    <div>
+        <label for="importSource">Import Games:</label>
+        <input type="file" id="importSource" accept=".json">
+    </div>
+    <div id="gameList"></div>
     <script src="app.mjs" type="module"></script>
 </body>
 </html>

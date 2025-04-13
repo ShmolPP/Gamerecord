@@ -61,6 +61,39 @@ function importGamesFromJSON(jsonString) {
 
 function loadGames() {
     games = getAllGames();
+    renderGames(); // Show the games on the page
+}
+
+function renderGames() {
+    const gameList = document.getElementById("gameList");
+    gameList.innerHTML = ""; // Clear the list so we don’t show games twice
+
+    games.forEach(game => {
+        const gameDiv = document.createElement("div");
+        gameDiv.className = "game";
+
+        const title = document.createElement("h2");
+        title.textContent = game.title;
+        gameDiv.appendChild(title);
+
+        const ratingLabel = document.createElement("label");
+        ratingLabel.textContent = "Rating: ";
+        const ratingInput = document.createElement("input");
+        ratingInput.type = "range";
+        ratingInput.min = "0";
+        ratingInput.max = "10";
+        ratingInput.value = game.personalRating;
+        ratingInput.disabled = true; // Can’t move it yet
+        gameDiv.appendChild(ratingLabel);
+        gameDiv.appendChild(ratingInput);
+
+        const playButton = document.createElement("button");
+        playButton.textContent = "Play Count: " + game.playCount;
+        playButton.disabled = true; // Can’t click it yet
+        gameDiv.appendChild(playButton);
+
+        gameList.appendChild(gameDiv);
+    });
 }
 
 loadGames();
@@ -73,7 +106,7 @@ importInput.addEventListener("change", (event) => {
         reader.onload = (e) => {
             const jsonString = e.target.result;
             importGamesFromJSON(jsonString);
-            loadGames(); 
+            loadGames(); // This will also call renderGames()
         };
         reader.readAsText(file);
     }

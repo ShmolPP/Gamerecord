@@ -2,3 +2,9 @@ body {
     font-family: sans-serif;
     padding: 20px;
 }
+
+.game {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
